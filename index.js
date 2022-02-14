@@ -29,10 +29,16 @@ console.log(processFirstItem(['foo','bar'],function(str){return str+str}));
   
   1. What is the difference between counter1 and counter2?
   
+Counter 1 uses a nested function and declares the variable count inside the function counterMaker. Counter 2 declares the coint variable in the global scope and does not make use of closure.
+
   2. Which of the two uses a closure? How can you tell?
-  
+
+counter 1 uses a closure. I can tell because the variable "count" is declared inside the funcion counterMaker and used inside the nested function counter
+
   3. In what scenario would the counter1 code be preferable? In what scenario would 
      counter2 be better?  
+
+     counter 1 would be preferable when you do not want to pollute the global scope. Counter 2 would be better when going for simplicity.
 */
 
 // counter1 code
@@ -62,8 +68,8 @@ Use the inning function below to do the following:
 NOTE: This will be a callback function for the tasks below
 */
 
-function inning(/*Code Here*/){
-    /*Code Here*/
+function inning(){
+    return Math.floor(Math.random()*3)
 }
 
 
@@ -81,8 +87,16 @@ Use the finalScore function below to do the following:
 }
 */ 
 
-function finalScore(/*code Here*/){
-  /*Code Here*/
+function finalScore(fn,num){
+ let obj = {
+  Home: 0,
+  Away: 0
+ }
+  for (let i =0 ; i<num ; i++){
+    obj.Home += inning()
+    obj.Away += inning()
+  }
+  return obj
 }
 
 /* ⚾️⚾️⚾️ Task 4: getInningScore() ⚾️⚾️⚾️
@@ -90,8 +104,14 @@ Use the getInningScore() function below to do the following:
   1. Receive a callback function - you will pass in the inning function from task 2 as your argument 
   2. Return an object with a score for home and a score for away that populates from invoking the inning callback function */
 
-function getInningScore(/*Your Code Here */) {
-  /*Your Code Here */
+function getInningScore(fn) {
+  let obj = {
+    Home: 0,
+    Away: 0
+   }
+   obj.Home += inning()
+   obj.Away += inning()
+   return obj
 }
 
 
@@ -136,11 +156,36 @@ Use the scoreboard function below to do the following:
 ]  
   */
 
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
+function scoreboard(getInningScore,inning,num) {
+  let arr =[]
+
+  let finalAway = 0
+  let finalHome = 0
+
+   for (let i =0 ; i<num ; i++){
+     let away = getInningScore().Away
+     finalAway += away
+     let home = getInningScore().Home
+     finalHome += home
+    arr.push(`Inning ${i+1}: Away ${away} - Home ${home}`)
+  }
+
+if (finalHome != finalAway){
+
+  arr.push(`Final Score: Away ${finalAway} - Home ${finalHome}`)
+
 }
 
+if (finalHome === finalAway){
 
+  arr.push(`This game will require extra innings: Away ${finalAway} - Home ${finalHome}`)
+
+}
+
+  return arr
+}
+
+console.log(scoreboard(getInningScore,inning, 9))
 
 
 /* 🛑🛑🛑🛑🛑 Please do not modify anything below this line 🛑🛑🛑🛑🛑 */
